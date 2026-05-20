@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -43,6 +44,22 @@ public class BookServiceTest {
         List<Book> result = bookService.findAll();
 
         assertEquals(2, result.size());
+    }
+
+    @Test
+    void findById_returnsBookById(){
+
+        Book book1 = new Book();
+        book1.setTitle("Clean Code");
+        book1.setAuthor("Robert Martin");
+        book1.setGenre("Programming");
+        book1.setPrice(29.99);
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(book1));
+
+        Book result = bookService.findById(1L).orElseThrow();
+
+        assertEquals(book1, result);
     }
 }
 
